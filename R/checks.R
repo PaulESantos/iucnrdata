@@ -9,10 +9,27 @@
 #' @export
 #'
 iucnrdata_version <- function(long=TRUE) {
-  if (long) {
-    glue::glue("Version {metadata$version} ({metadata$version_date})")
+
+  extraer_fecha <- function(fecha_texto) {
+    # Extraer la parte de la fecha "AAAA-MM-DD" utilizando expresiones regulares
+    fecha_match <- regmatches(fecha_texto, regexpr("\\d{4}-\\d{2}-\\d{2}", fecha_texto))
+
+    # Convertir la cadena de texto a formato Date
+    fecha_formato <- as.Date(fecha_match, format = "%Y-%m-%d")
+
+    return(fecha_formato)
+  }
+
+  pkg_info <- utils::packageDescription("iucnrdata") # Cambia "nombre_del_paquete" por el nombre real del paquete
+
+  # Extraer la versión y la fecha de publicación desde el metadata del paquete
+  version <- pkg_info$Version
+  version_date <- pkg_info$Packaged |> extraer_fecha()
+
+    if (long) {
+    glue::glue("Version {version} ({version_date})")
   } else {
-    metadata$version
+    version
   }
 }
 

@@ -1,6 +1,6 @@
 Package: iucnrdata
 Title: Data from the International Union for Conservation of Nature’s Red List of Threatened Species
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person("Paul Efren", "Santos Andrade", ,
     "paulefrens@gmail.com", role = c("aut", "cre"),

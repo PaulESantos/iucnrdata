@@ -32,6 +32,7 @@ iucnrdata_version <- function(long=TRUE) {
     version
   }
 }
+iucnrdata_version()
 
 #' Check if the packaged version of iucnr is up to date.
 #'
@@ -41,11 +42,27 @@ iucnrdata_version <- function(long=TRUE) {
 #'
 iucn_check_version <- function(silent=FALSE) {
   latest_date <- get_iucn_upload_date()
-  up_to_date <- latest_date == metadata$upload_date
+  extraer_fecha <- function(fecha_texto) {
+    # Extraer la parte de la fecha "AAAA-MM-DD" utilizando expresiones regulares
+    fecha_match <- regmatches(fecha_texto, regexpr("\\d{4}-\\d{2}-\\d{2}", fecha_texto))
 
-  if (! silent & ! up_to_date) {
-    msg <- glue::glue("iucnr data not the most recent version!",
-                      "Using {iucnrdata_version()} uploaded on {metadata$upload_date}.",
+    # Convertir la cadena de texto a formato Date
+    fecha_formato <- as.Date(fecha_match, format = "%Y-%m-%d")
+
+    return(fecha_formato)
+  }
+
+  pkg_info <- utils::packageDescription("iucnrdata") # Cambia "nombre_del_paquete" por el nombre real del paquete
+
+  # Extraer la versión y la fecha de publicación desde el metadata del paquete
+  version <- pkg_info$Version
+  version_date <- pkg_info$Packaged |> extraer_fecha()
+
+  up_to_date <- latest_date == version_date
+
+if (! silent & ! up_to_date) {
+    msg <- glue::glue("iucnrdata not the most recent version!",
+                      "Using {iucnrdata_version()} uploaded on {version_date}.",
                       "Latest version was uploaded on {latest_date}.",
                       .sep="\n")
     warning(msg)
@@ -107,12 +124,10 @@ get_iucn_upload_date <- function() {
 
   # Make a GET request to retrieve file metadata
   response <- httr::GET(api_url)
-  response
   # Check if the request was successful
-  if (httr::status_code(response) == 200) {
+  if (httr::status_code(response) == 404) {
     # Extract the last modified date from headers
-    last_modified <- httr::headers(response)$`last-modified`
-    last_modified
+    last_modified <- httr::headers(response)$`date`
     # Convert to "YYYY-MM-DD" format if last_modified exists
     if (!is.null(last_modified)) {
       upload_date <- convert_repo_date(last_modified)

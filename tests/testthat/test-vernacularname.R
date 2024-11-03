@@ -1,27 +1,27 @@
-# tests/testthat/test-vernacular_name.R
+# tests/testthat/test-common_names_2024_v2.R
 
-test_that("vernacular_name dataset structure is correct", {
+test_that("common_names_2024_v2 dataset structure is correct", {
   # Cargar el dataset
-  data("vernacular_name")
+  data("common_names_2024_v2")
 
   # Verificar que es un tibble/data.frame
-  expect_s3_class(vernacular_name, "tbl_df")
+  expect_s3_class(common_names_2024_v2, "tbl_df")
 
-  # Verificar que contiene las 4 columnas correctas
-  expected_columns <- c("core_id", "language", "vernacular_name", "is_preferred_name")
-  expect_named(vernacular_name, expected_columns)
+  # Verificar que contiene las 5 columnas correctas
+  expected_columns <- c("internal_taxon_id", "scientific_name", "name", "language", "main")
+  expect_named(common_names_2024_v2, expected_columns)
 
   # Verificar los tipos de las columnas
-  expect_type(vernacular_name$core_id, "integer")
-  expect_type(vernacular_name$language, "character")
-  expect_type(vernacular_name$vernacular_name, "character")
-  expect_type(vernacular_name$is_preferred_name, "logical")
+  expect_type(common_names_2024_v2$internal_taxon_id, "integer")
+  expect_type(common_names_2024_v2$scientific_name, "character")
+  expect_type(common_names_2024_v2$name, "character")
+  expect_type(common_names_2024_v2$language, "character")
+  expect_type(common_names_2024_v2$main, "logical")
 
-  # Verificar que no haya valores NA en columnas esenciales (core_id y vernacular_name)
-  expect_false(any(is.na(vernacular_name$core_id)))
-  expect_false(any(is.na(vernacular_name$vernacular_name)))
+  # Verificar que no haya valores NA en columnas esenciales (internal_taxon_id y name)
+  expect_false(any(is.na(common_names_2024_v2$internal_taxon_id)))
+  expect_false(any(is.na(common_names_2024_v2$name)))
 
-  # Verificar que is_preferred_name solo contiene valores TRUE o FALSE
-  expect_true(all(vernacular_name$is_preferred_name %in% c(TRUE, FALSE)))
+  # Verificar que main solo contiene valores TRUE o FALSE
+  expect_true(all(common_names_2024_v2$main %in% c(TRUE, FALSE)))
 })
-

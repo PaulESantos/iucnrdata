@@ -1,0 +1,15 @@
+#' IUCN Red List Vernacular Names Data (2024 Update)
+#'
+#' This dataset contains updated vernacular (common) names for species included in the IUCN Red List of Threatened Species. The names are provided in multiple languages, with some species having more than one common name. Each vernacular name is linked to a taxon through a unique internal identifier, facilitating cross-referencing with the core taxonomic dataset.
+#'
+#' @format A tibble with 173,241 rows and 5 variables:
+#' \describe{
+#'   \item{internal_taxon_id}{\code{integer}. A unique internal identifier linking the vernacular name to the corresponding taxon in the core dataset.}
+#'   \item{scientific_name}{\code{character}. The scientific (Latin) name of the species associated with the vernacular name.}
+#'   \item{name}{\code{character}. The vernacular or common name of the species in the specified language.}
+#'   \item{language}{\code{character}. The language in which the vernacular name is provided, using standard language codes (e.g., "fra" for French, "eng" for English).}
+#'   \item{main}{\code{logical}. Indicates whether the vernacular name is the preferred name (\code{TRUE}) or an alternative name (\code{FALSE}).}
+#' }
+#'
+#' This updated dataset provides valuable information for understanding the common names of species across different languages. It is particularly useful for local conservation efforts and for public engagement in biodiversity awareness, enabling more accessible communication about species.
+"common_names_2024_v2"

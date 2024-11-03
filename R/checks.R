@@ -26,7 +26,7 @@ iucnrdata_version <- function(long=TRUE) {
   version <- pkg_info$Version
   version_date <- pkg_info$Packaged |> extraer_fecha()
 
-    if (long) {
+  if (long) {
     glue::glue("Version {version} ({version_date})")
   } else {
     version
